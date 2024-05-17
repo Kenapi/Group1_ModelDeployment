@@ -41,15 +41,16 @@ elif app_mode == "About Project":
 # Prediction Page
 elif app_mode == "Prediction":
     st.header("Model Prediction")
-    test_image = st.file_uploader("Choose an Image:")
-    if st.button("Show Image"):
+    test_image = st.file_uploader("Choose an Image:", type=["jpg", "jpeg", "png"])
+    if test_image is not None:
         st.image(test_image, use_column_width=True)
-    # Predict button
-    if st.button("Predict"):
-        st.success("Our Prediction")
-        result_index = model_prediction(test_image)
-        # Reading Labels
-        with open("labels.txt") as f:
-            content = f.readlines()
-        label = [i.strip() for i in content]
-        st.success("Model Prediction: {}".format(label[result_index]))
+        if st.button("Predict"):
+            st.success("Our Prediction")
+            with open("temp_image.jpg", "wb") as f:
+                f.write(test_image.getbuffer())
+            result_index = model_prediction("temp_image.jpg")
+            # Reading Labels
+            with open("labels.txt") as f:
+                content = f.readlines()
+            label = [i.strip() for i in content]
+            st.success("Model Prediction: {}".format(label[result_index]))
