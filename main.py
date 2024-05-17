@@ -6,7 +6,7 @@ import os
 # Tensorflow Model Prediction
 def model_prediction(test_image_path):
     try:
-        model = tf.keras.models.load_model("ap.h5")
+        model = tf.keras.models.load_model("app.h5")
     except OSError as e:
         st.error(f"Error loading model: {e}")
         return None
