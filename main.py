@@ -81,7 +81,7 @@ def main():
                 predicted_sport = predict(test_image, model, labels)
                 st.success(f"Predicted Sports Category: {predicted_sport}")
 
-    elif page == "About":
+    elif page == "About the Project":
         # About the project
         st.title("About the Project")
         st.write("""
