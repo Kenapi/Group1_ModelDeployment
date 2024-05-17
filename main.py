@@ -24,10 +24,10 @@ def model_prediction(test_image_path):
     except Exception as e:
         st.error(f"Error loading model: {e}")
         return None
-    
+
     image = tf.keras.preprocessing.image.load_img(test_image_path, target_size=(64, 64))
     input_arr = tf.keras.preprocessing.image.img_to_array(image)
-    input_arr = np.array([input_arr])  # convert single image to batch
+    input_arr = np.expand_dims(input_arr, axis=0)  # convert single image to batch
     predictions = model.predict(input_arr)
     return np.argmax(predictions)  # return index of max element
 
