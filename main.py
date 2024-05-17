@@ -23,6 +23,7 @@ def predict(image, model, labels):
     return labels[predicted_class[0]]
 
 # Load the model with error handling
+@st.cache(allow_output_mutation=True)
 def load_model_file(model_path):
     try:
         model = load_model(model_path)
@@ -32,6 +33,7 @@ def load_model_file(model_path):
         return None
 
 # Function to load labels from a text file
+@st.cache
 def load_labels(filename):
     with open(filename, 'r') as file:
         labels = file.readlines()
@@ -110,3 +112,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+
