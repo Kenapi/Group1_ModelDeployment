@@ -20,7 +20,7 @@ def check_model_file(model_path):
 # Tensorflow Model Prediction
 def model_prediction(test_image_path):
     try:
-        model = tf.keras.models.load_model("app.h5")
+        model = tf.keras.models.load_model("app.hdf5")
     except Exception as e:
         st.error(f"Error loading model: {e}")
         return None
@@ -32,7 +32,7 @@ def model_prediction(test_image_path):
     return np.argmax(predictions)  # return index of max element
 
 # Check if model file exists and is valid
-model_file_check, model_file_message = check_model_file("app.h5")
+model_file_check, model_file_message = check_model_file("app.hdf5")
 if not model_file_check:
     st.error(model_file_message)
 
