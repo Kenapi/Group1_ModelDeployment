@@ -23,6 +23,7 @@ def predict(image, model, labels):
     return labels[predicted_class[0]]
 
 # Load the model with error handling
+@st.cache(allow_output_mutation=True)
 def load_model_file(model_path):
     try:
         model = load_model(model_path)
