@@ -23,11 +23,9 @@ def predict(image, model, labels):
     return labels[predicted_class[0]]
 
 # Load the model with error handling
-@st.cache(allow_output_mutation=True)
 def load_model_file(model_path):
     try:
         model = load_model(model_path)
-        st.write("Model loaded successfully.")
         return model
     except Exception as e:
         st.error(f"Error loading model: {e}")
@@ -84,15 +82,15 @@ def main():
         if test_image is not None:
             st.image(test_image, width=300, caption='Uploaded Image')
             if st.button("Predict"):
-                st.write("Predicting...")
-                labels = load_labels("labels.txt")
-                model = load_model_file('app.h5')
-                if model:
-                    try:
-                        predicted_sport = predict(test_image, model, labels)
-                        st.success(f"Predicted Sports Category: {predicted_sport}")
-                    except Exception as e:
-                        st.error(f"Error during prediction: {e}")
+                with st.spinner('Predicting...'):
+                    labels = load_labels("labels.txt")
+                    model = load_model_file('app.h5')
+                    if model:
+                        try:
+                            predicted_sport = predict(test_image, model, labels)
+                            st.success(f"Predicted Sports Category: {predicted_sport}")
+                        except Exception as e:
+                            st.error(f"Error during prediction: {e}")
 
     elif page == "About":
         # About the project
