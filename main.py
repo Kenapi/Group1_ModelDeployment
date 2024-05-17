@@ -3,11 +3,25 @@ import tensorflow as tf
 import numpy as np
 import os
 
+# Function to check if the model file exists and is a valid H5 file
+def check_model_file(model_path):
+    if not os.path.exists(model_path):
+        return False, f"Model file '{model_path}' not found."
+    try:
+        with open(model_path, 'rb') as f:
+            header = f.read(8)
+            if header[:4] == b'\x89HDF' and header[4:] == b'\r\n\x1a\n':
+                return True, "Model file is valid."
+            else:
+                return False, "Model file is not a valid HDF5 file."
+    except Exception as e:
+        return False, f"Error opening model file: {e}"
+
 # Tensorflow Model Prediction
 def model_prediction(test_image_path):
     try:
         model = tf.keras.models.load_model("app.h5")
-    except OSError as e:
+    except Exception as e:
         st.error(f"Error loading model: {e}")
         return None
     
@@ -17,9 +31,10 @@ def model_prediction(test_image_path):
     predictions = model.predict(input_arr)
     return np.argmax(predictions)  # return index of max element
 
-# Check if model file exists
-if not os.path.exists("app.h5"):
-    st.error("Model file 'trained_model.h5' not found. Please ensure the file is in the correct directory.")
+# Check if model file exists and is valid
+model_file_check, model_file_message = check_model_file("app.h5")
+if not model_file_check:
+    st.error(model_file_message)
 
 # Sidebar
 st.sidebar.title("Dashboard")
