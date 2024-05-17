@@ -86,11 +86,10 @@ def main():
         st.title("About the Project")
         st.write("""
         This Streamlit app uses a Convolutional Neural Network (CNN) model to classify sports categories. 
-        It accepts an image as input and predicts whether the image belongs to one of the following sports categories: 
-        Baseball, Basketball, Cricket, or Soccer.
+        It accepts an image as input and predicts whether the image belongs to one of the available 100 sports categories: 
         """)
         st.write("This project is based on a dataset available on Kaggle: [Sports Classification Dataset](https://www.kaggle.com/datasets/gpiosenka/sports-classification/data)")
-        st.write("Developed by:")
+        st.write("Developed by: Group 1 (CPE32S4)")
         st.write("- Altero, Alexia A.")
         st.write("- Balawang, Jhoana")
         st.write("- Bartolome, Ken Christian Adrian V.")
