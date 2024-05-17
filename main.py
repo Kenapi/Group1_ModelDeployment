@@ -36,7 +36,7 @@ def load_labels(filename):
 def main():
     # Sidebar
     st.sidebar.title("Group 1 Model Deployment in the Cloud")
-    page = st.sidebar.radio("Go to", ["Home", "Prediction", "About"])
+    page = st.sidebar.radio("Go to", ["Home", "Prediction", "About the Project"])
 
     if page == "Home":
         # Title
