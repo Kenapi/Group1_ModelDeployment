@@ -1,15 +1,25 @@
 import streamlit as st
 import tensorflow as tf
 import numpy as np
+import os
 
 # Tensorflow Model Prediction
-def model_prediction(test_image):
-    model = tf.keras.models.load_model("app.h5")
-    image = tf.keras.preprocessing.image.load_img(test_image, target_size=(64, 64))
+def model_prediction(test_image_path):
+    try:
+        model = tf.keras.models.load_model("aop.h5")
+    except OSError as e:
+        st.error(f"Error loading model: {e}")
+        return None
+    
+    image = tf.keras.preprocessing.image.load_img(test_image_path, target_size=(64, 64))
     input_arr = tf.keras.preprocessing.image.img_to_array(image)
     input_arr = np.array([input_arr])  # convert single image to batch
     predictions = model.predict(input_arr)
     return np.argmax(predictions)  # return index of max element
+
+# Check if model file exists
+if not os.path.exists("app.h5"):
+    st.error("Model file 'trained_model.h5' not found. Please ensure the file is in the correct directory.")
 
 # Sidebar
 st.sidebar.title("Dashboard")
@@ -46,11 +56,16 @@ elif app_mode == "Prediction":
         st.image(test_image, use_column_width=True)
         if st.button("Predict"):
             st.success("Our Prediction")
+            # Save the uploaded file temporarily
             with open("temp_image.jpg", "wb") as f:
                 f.write(test_image.getbuffer())
             result_index = model_prediction("temp_image.jpg")
-            # Reading Labels
-            with open("labels.txt") as f:
-                content = f.readlines()
-            label = [i.strip() for i in content]
-            st.success("Model Prediction: {}".format(label[result_index]))
+            if result_index is not None:
+                # Reading Labels
+                if os.path.exists("labels.txt"):
+                    with open("labels.txt") as f:
+                        content = f.readlines()
+                    label = [i.strip() for i in content]
+                    st.success("Model Prediction: {}".format(label[result_index]))
+                else:
+                    st.error("Labels file 'labels.txt' not found. Please ensure the file is in the correct directory.")
